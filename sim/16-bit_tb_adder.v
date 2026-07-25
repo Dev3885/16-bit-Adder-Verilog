@@ -2,8 +2,9 @@
 module tb;
 reg [15:0] A, B; reg CIN;
 wire [15:0] SUM; wire COUT;
-add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT));
-reg [16:0] expected;
+wire sign, overflow, parity, eparity, zeroflag;
+add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT),.sign(sign),.parity(parity),.eparity(eparity),.overflow(overflow),.zeroflag(zeroflag));
+reg [15:0] expected;
 reg error;
 integer i;
 reg clk;
@@ -12,7 +13,7 @@ initial begin
     clk = 0;
     $dumpfile ("add16.vcd");
     $dumpvars (0, tb);
-    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b", $time, A, B, CIN, SUM, COUT);
+    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b sign=%b parity=%b eparity=%b overflow=&b zeroflag=%b", $time, A, B, CIN, SUM, COUT, sign, parity, eparity, overflow, zeroflag);
     #5 A = 16'b0000111100000001; B = 16'b0011010000000010; CIN = 1'b0;
     #10 A = 16'b0000000000001011; B = 16'b0001100000001111; CIN = 1'b1;
     #10 A = 16'b1111111111111111; B = 16'b0000000000111100; CIN = 1'b1;
@@ -42,7 +43,8 @@ endmodule
 //module tb;
 //reg [15:0] A, B; reg CIN;
 //wire [15:0] SUM; wire COUT;
-//add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT));
+//wire sign, overflow, parity, eparity, zeroflag;
+//add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT),.sign(sign),.parity(parity),.eparity(eparity),.overflow(overflow),.zeroflag(zeroflag));
 //reg [16:0] expected;
 //reg error;
 //integer i;
@@ -65,7 +67,7 @@ endmodule
 //initial begin
 //    $dumpfile ("add16.vcd");
 //    $dumpvars (0, tb);
-//    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b", $time, A, B, CIN, SUM, COUT);
+//    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b sign=%b parity=%b even parity=%b overflow=&b zero flag=%b", $time, A, B, CIN, SUM, COUT, sign, parity, even parity, overflow, zero flag);
 //    #5 checking; A = 16'b0000111100000001; B = 16'b0011010000000010; CIN = 1'b0;
 //    #5 checking; A = 16'b0000000000001011; B = 16'b0001100000001111; CIN = 1'b1;
 //    #5 checking; A = 16'b1111111111111111; B = 16'b0000000000111100; CIN = 1'b1;
@@ -79,12 +81,13 @@ endmodule
 //module tb;
 //reg [15:0] A, B; reg CIN;
 //wire [15:0] SUM; wire COUT;
-//add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT));
+//wire sign, overflow, parity, eparity, zeroflag;
+//add16 DUT (.A(A), .B(B), .CIN(CIN), .SUM(SUM), .COUT(COUT),.sign(sign),.parity(parity),.eparity(eparity),.overflow(overflow),.zeroflag(zeroflag));
 
 //initial begin
 //    $dumpfile ("add16.vcd");
 //    $dumpvars (0, tb);
-//    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b", $time, A, B, CIN, SUM, COUT);
+//    $monitor ("time=%0t A=%b B=%b CIN=%b SUM=%b COUT=%b sign=%b parity=%b even parity=%b overflow=&b zero flag=%b", $time, A, B, CIN, SUM, COUT, sign, parity, even parity, overflow, zero flag);
 //    #5  A = 16'b0000111100000001; B = 16'b0011010000000010; CIN = 1'b0;
 //    #5  A = 16'b0000000000001011; B = 16'b0001100000001111; CIN = 1'b1;
 //    #5  A = 16'b1111111111111111; B = 16'b0000000000111100; CIN = 1'b1;
